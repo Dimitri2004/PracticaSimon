@@ -3,6 +3,10 @@ package gz.dam.trabajosimondize
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MyViewModel() : ViewModel() {
     // Aquí iría la implementación del ViewModel
@@ -36,6 +40,20 @@ class MyViewModel() : ViewModel() {
         indiceJugador.value= 0
         mostrarSecuencia()
         Log.d(TAG_LOG, "Nueva secuencia: $secuencia")
+    }
+
+    // Muestra la secuencia al jugador
+    fun mostrarSecuencia() {
+        CoroutineScope(Dispatchers.Main).launch {
+            for (color in secuencia) {
+                botonActivo.value = color
+                delay(200)  // Duración del color activo
+                botonActivo.value = -1
+                delay(150)  // Pausa entre colores
+            }
+            estadoLiveData.value = Estado.SIGUIENDO
+        }
+
     }
 
 
