@@ -7,8 +7,6 @@ class MyViewModel() : ViewModel() {
     // Aquí iría la implementación del ViewModel
     private val TAG_LOG = "miDebug"
 
-
-
     // Estado del juego
 
     val estadoLiveData: MutableLiveData<Estado> = MutableLiveData(Estado.INICIO)
