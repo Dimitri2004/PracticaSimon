@@ -76,5 +76,24 @@ class MyViewModel() : ViewModel() {
 
     }
 
+    // Comprueba la entrada del jugador
+    fun comprobar(ordinal: Int) {
+        if (estadoLiveData.value != Estado.SIGUIENDO) return
+        var indiceJugador = indiceJugador.value ?: 0
+        if (secuencia[indiceJugador] == ordinal) {
+            indiceJugador= indiceJugador + 1
+            this.indiceJugador.value= indiceJugador
+            if (indiceJugador == secuencia.size) {
+                // Secuencia completa correcta
+                puntuacion.value = (puntuacion.value ?: 0) + 1
+                // Generar siguiente ronda automáticamente
+                Log.d(TAG_LOG, "Secuencia correcta. Puntuación: ${puntuacion.value}")
+                generarSiguienteRonda()
+            }
+        } else {
+            reiniciarJuego()
+        }
+    }
+
 
 }
