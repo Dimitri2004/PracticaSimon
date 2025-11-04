@@ -65,6 +65,16 @@ class MyViewModel() : ViewModel() {
         Log.d( TAG_LOG, "Nueva secuencia: $secuencia" )
         mostrarSecuencia()              // mostramos la secuencia actualizada
     }
+    fun reiniciarJuego() {
+        // Reiniciar todas las variables del juego
+        secuencia.clear()
+        indiceJugador.value = 0
+        puntuacion.value = 0
+        ronda.value = 1
+        estadoLiveData.value = Estado.INICIO
+        Log.d( TAG_LOG, "Juego reiniciado" )
+
+    }
 
 
 }
