@@ -1,5 +1,6 @@
 package gz.dam.trabajosimondize
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -22,5 +23,20 @@ class MyViewModel() : ViewModel() {
     val botonActivo: MutableLiveData<Int> = MutableLiveData(-1)
 
     val ronda: MutableLiveData<Int> = MutableLiveData(0)
+
+    // Genera un nuevo color y muestra la secuencia
+    fun crearRandom() {
+        estadoLiveData.value = Estado.GENERANDO
+        ronda.value = 1
+        secuencia.clear()
+        puntuacion.value = 0
+        // Generar color aleatorio y agregar a la secuencia
+        val nuevo = (0..3).random()
+        secuencia.add(nuevo)
+        indiceJugador.value= 0
+        mostrarSecuencia()
+        Log.d(TAG_LOG, "Nueva secuencia: $secuencia")
+    }
+
 
 }
