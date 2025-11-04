@@ -55,6 +55,16 @@ class MyViewModel() : ViewModel() {
         }
 
     }
+    // Genera la siguiente ronda añadiendo un nuevo color a la secuencia
+    fun generarSiguienteRonda() {
+        estadoLiveData.value= Estado.GENERANDO
+        ronda.value = (ronda.value ?: 1) + 1
+        val nuevo = (0..3).random()      // generamos un nuevo color ale
+        secuencia.add(nuevo)            // lo añadimos a la secuencia
+        indiceJugador.value= 0          // reiniciamos el índice del jugador
+        Log.d( TAG_LOG, "Nueva secuencia: $secuencia" )
+        mostrarSecuencia()              // mostramos la secuencia actualizada
+    }
 
 
 }
