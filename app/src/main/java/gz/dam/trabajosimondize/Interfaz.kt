@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.*
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.PI
@@ -41,6 +42,7 @@ fun Interfaz(miViewModel: MyViewModel) {
 
     val botonActivo by miViewModel.botonActivo.observeAsState(-1)
     val error by miViewModel.errorLiveData.observeAsState(false)
+
     // Sonar automáticamente cuando el ViewModel activa un botón
     LaunchedEffect(botonActivo) {
         when (botonActivo) {
@@ -53,22 +55,19 @@ fun Interfaz(miViewModel: MyViewModel) {
     }
     LaunchedEffect(error) {
         if (error) {
+            delay(150) // pequeño espacio antes de iniciar la secuencia
+
             try {
-                // Melodía descendente RE–MI–FA–DO
-                val notas = listOf(293.66,329.63,349.23,261.63)
+                val notas = listOf(293.66, 329.63, 349.23, 261.63)
                 for (nota in notas) {
                     reproducirTono(nota, 200)
-                    delay(200)
+                    delay(300)
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             } finally {
-                // Asegura que el flag se resetee incluso si hubo un error
                 miViewModel.errorLiveData.value = false
             }
         }
     }
-
 
     Column(
         modifier = Modifier
@@ -161,8 +160,9 @@ fun BotonStart(miViewModel: MyViewModel) {
 }
 @Composable
 fun Puntuacion(model: MyViewModel, modifier: Modifier = Modifier) {
-    // Obtener la puntuación del ViewModel despues de haberla cambiado a MutableLiveData
     val puntos by model.puntuacion.observeAsState(0)
+    val record by model.record.collectAsState()
+
     Column(
         modifier = modifier
             .fillMaxWidth(0.9f)
@@ -178,10 +178,9 @@ fun Puntuacion(model: MyViewModel, modifier: Modifier = Modifier) {
             color = Color.Black
         )
 
-
     }
 }
-fun reproducirTono(frecuencia: Double, duracionMs: Int) {
+fun reproducirTono(frecuencia: Double, duracionMs: Int, pausaMs: Long = 100) {
     val sampleRate = 44100
     val numSamples = (duracionMs / 1000.0 * sampleRate).toInt()
     val buffer = ShortArray(numSamples)
@@ -192,7 +191,7 @@ fun reproducirTono(frecuencia: Double, duracionMs: Int) {
         buffer[i] = (sin(angle) * Short.MAX_VALUE).toInt().toShort()
     }
 
-    // Crear un AudioTrack para reproducir el tono
+    // Crear AudioTrack
     val audioTrack = AudioTrack(
         AudioManager.STREAM_MUSIC,
         sampleRate,
@@ -204,9 +203,15 @@ fun reproducirTono(frecuencia: Double, duracionMs: Int) {
 
     audioTrack.write(buffer, 0, buffer.size)
     audioTrack.play()
-    // Detener luego de la duración
+
+    // Reproducir exactamente la duración del tono
     Thread.sleep(duracionMs.toLong())
+
+    audioTrack.stop()
     audioTrack.release()
+
+    // --- 🔇 Pausa adicional para evitar mezcla ---
+    Thread.sleep(pausaMs)
 }
 @Composable
 fun Ronda(miViewModel: MyViewModel) {

@@ -1,14 +1,20 @@
 package gz.dam.trabajosimondize
 
+import android.app.Application
+import android.content.Context
+import android.provider.Settings.Global.getString
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class MyViewModel() : ViewModel() {
+
+class MyViewModel(application: Application) : AndroidViewModel(application) {
     private val TAG_LOG: String = "miDebug"
 
 
@@ -33,7 +39,7 @@ class MyViewModel() : ViewModel() {
 
     val ronda: MutableLiveData<Int> = MutableLiveData(0)
 
-
+    val record = MutableStateFlow(0)
 
     // Genera un nuevo color y muestra la secuencia
     fun crearRandom() {
@@ -111,6 +117,19 @@ class MyViewModel() : ViewModel() {
         }
     }
 
-
+    fun esRecord(recorInicial:Int){
+        if (recorInicial > obtenerRecord()) {
+            ControladorPreference.actualizarRecord(getApplication(), recorInicial)
+            record.value = recorInicial
+            Log.d("_PREF", "Es record")
+        } else {
+            Log.d("_PREF", "No es record")
+        }
+    }
+    fun obtenerRecord():Int{
+        record.value =  ControladorPreference.obtenerRecord(getApplication())
+        Log.d("_PREF", "Record: ${(record.value)}")
+        return record.value
+    }
 
 }
