@@ -4,23 +4,6 @@
             "outputFile": "gz.dam.trabajosimondize.app-mergeDebugResources-47:/values/values.xml",
             "map": [
                 {
-                    "source": "/home/dam/Escritorio/TrabajoSimonDice2/app/src/main/res/values/strings.xml",
-                    "from": {
-                        "startLines": "1",
-                        "startColumns": "4",
-                        "startOffsets": "16",
-                        "endColumns": "53",
-                        "endOffsets": "65"
-                    },
-                    "to": {
-                        "startLines": "113",
-                        "startColumns": "4",
-                        "startOffsets": "6752",
-                        "endColumns": "53",
-                        "endOffsets": "6801"
-                    }
-                },
-                {
                     "source": "/home/dam/.gradle/caches/8.13/transforms/988deda1f0c0c851f8317c00031cb9d5/transformed/customview-poolingcontainer-1.0.0/res/values/values.xml",
                     "from": {
                         "startLines": "2,3",
@@ -52,23 +35,6 @@
                         "startOffsets": "4845",
                         "endColumns": "65",
                         "endOffsets": "4906"
-                    }
-                },
-                {
-                    "source": "/home/dam/Escritorio/TrabajoSimonDice2/app/src/main/res/values/themes.xml",
-                    "from": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "56",
-                        "endColumns": "93",
-                        "endOffsets": "145"
-                    },
-                    "to": {
-                        "startLines": "237",
-                        "startColumns": "4",
-                        "startOffsets": "15007",
-                        "endColumns": "92",
-                        "endOffsets": "15095"
                     }
                 },
                 {
@@ -110,23 +76,6 @@
                     }
                 },
                 {
-                    "source": "/home/dam/Escritorio/TrabajoSimonDice2/app/src/main/res/values/colors.xml",
-                    "from": {
-                        "startLines": "7,2,3,4,5,6,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "286,55,102,149,196,241,328",
-                        "endColumns": "41,46,46,46,44,44,41",
-                        "endOffsets": "323,97,144,191,236,281,365"
-                    },
-                    "to": {
-                        "startLines": "7,12,13,14,15,16,17",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "491,796,843,890,937,982,1027",
-                        "endColumns": "41,46,46,46,44,44,41",
-                        "endOffsets": "528,838,885,932,977,1022,1064"
-                    }
-                },
-                {
                     "source": "/home/dam/.gradle/caches/8.13/transforms/f2a1857c6f88b0300d486cfbd79bc3ca/transformed/foundation-release/res/values/values.xml",
                     "from": {
                         "startLines": "2,3",
@@ -141,6 +90,23 @@
                         "startOffsets": "12852,12908",
                         "endColumns": "55,54",
                         "endOffsets": "12903,12958"
+                    }
+                },
+                {
+                    "source": "/home/dam/Escritorio/PracticaSimon/app/src/main/res/values/colors.xml",
+                    "from": {
+                        "startLines": "7,2,3,4,5,6,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "286,55,102,149,196,241,328",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "323,97,144,191,236,281,365"
+                    },
+                    "to": {
+                        "startLines": "7,12,13,14,15,16,17",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "491,796,843,890,937,982,1027",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "528,838,885,932,977,1022,1064"
                     }
                 },
                 {
@@ -160,6 +126,23 @@
                         "endLines": "110,128,129,130,131,132,133,134,135,136,139,140,141,142,143,144,145,146,147,148,149,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,215,218",
                         "endColumns": "72,87,85,80,83,68,64,82,105,85,13,53,68,60,68,88,94,73,96,92,97,13,90,87,95,97,63,67,86,93,66,71,71,100,108,75,68,47,65,63,73,56,56,71,49,53,70,70,69,68,57,75,70,73,85,49,69,64,12,12",
                         "endOffsets": "6594,7856,7942,8023,8107,8176,8241,8324,8430,8516,8636,8690,8759,8820,8889,8978,9073,9147,9244,9337,9435,9584,9675,9763,9859,9957,10021,10089,10176,10270,10337,10409,10481,10582,10691,10767,10836,10884,10950,11014,11088,11145,11202,11274,11324,11378,11449,11520,11590,11659,11717,11793,11864,11938,12024,12074,12144,12209,13785,13938"
+                    }
+                },
+                {
+                    "source": "/home/dam/Escritorio/PracticaSimon/app/src/main/res/values/themes.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "56",
+                        "endColumns": "93",
+                        "endOffsets": "145"
+                    },
+                    "to": {
+                        "startLines": "237",
+                        "startColumns": "4",
+                        "startOffsets": "15007",
+                        "endColumns": "92",
+                        "endOffsets": "15095"
                     }
                 },
                 {
@@ -262,6 +245,23 @@
                         "startOffsets": "5208,6309",
                         "endColumns": "41,59",
                         "endOffsets": "5245,6364"
+                    }
+                },
+                {
+                    "source": "/home/dam/Escritorio/PracticaSimon/app/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endColumns": "53",
+                        "endOffsets": "65"
+                    },
+                    "to": {
+                        "startLines": "113",
+                        "startColumns": "4",
+                        "startOffsets": "6752",
+                        "endColumns": "53",
+                        "endOffsets": "6801"
                     }
                 }
             ]

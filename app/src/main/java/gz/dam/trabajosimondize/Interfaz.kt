@@ -38,8 +38,7 @@ import kotlin.math.sin
 @Composable
 fun Interfaz(miViewModel: MyViewModel) {
 
-    // 🎵 Creamos un ToneGenerator que usaremos para los sonidos
-
+    val record by miViewModel.record.collectAsState()
     val botonActivo by miViewModel.botonActivo.observeAsState(-1)
     val error by miViewModel.errorLiveData.observeAsState(false)
 
@@ -86,6 +85,9 @@ fun Interfaz(miViewModel: MyViewModel) {
                 .padding(10.dp)
         ) {
             Column {
+                Text(
+                    text = "Record: $record"
+                )
                 Row {
                     BotonSimondize(miViewModel, Colores.CLASE_ROJO)
                     Spacer(Modifier.size(5.dp))
@@ -229,10 +231,7 @@ fun Ronda(miViewModel: MyViewModel) {
             fontSize = 30.sp,
             color = Color.Black
         )
+
     }
 }
-@Preview(showBackground = true)
-@Composable
-fun IUPreview() {
-    Interfaz(MyViewModel())
-}
+

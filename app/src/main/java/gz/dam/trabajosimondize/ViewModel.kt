@@ -2,18 +2,31 @@ package gz.dam.trabajosimondize
 
 import android.app.Application
 import android.content.Context
+import android.os.Looper
 import android.provider.Settings.Global.getString
 import android.util.Log
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.logging.Handler
 
 
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS",
+    "NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS"
+)
 class MyViewModel(application: Application) : AndroidViewModel(application) {
     private val TAG_LOG: String = "miDebug"
 
@@ -37,10 +50,15 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     // Botón activo para animación
     val botonActivo: MutableLiveData<Int> = MutableLiveData(-1)
 
-    val ronda: MutableLiveData<Int> = MutableLiveData(0)
+    val ronda = MutableLiveData(0)
 
     val record = MutableStateFlow(0)
 
+    var data = Date()
+
+    init {
+        record.value=obtenerRecord()
+    }
     // Genera un nuevo color y muestra la secuencia
     fun crearRandom() {
         estadoLiveData.value = Estado.GENERANDO
@@ -53,6 +71,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         indiceJugador.value= 0
         mostrarSecuencia()
         Log.d(TAG_LOG, "Estado: ${estadoLiveData.value}")
+
     }
 
     fun mostrarSecuencia() {
@@ -117,19 +136,19 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun esRecord(recorInicial:Int){
-        if (recorInicial > obtenerRecord()) {
-            ControladorPreference.actualizarRecord(getApplication(), recorInicial)
-            record.value = recorInicial
-            Log.d("_PREF", "Es record")
-        } else {
-            Log.d("_PREF", "No es record")
+    fun esRecord(){
+        if (puntuacion.value > obtenerRecord()){
+            Log.d("DataP", "Hola $data")
+            ControladorPreference.actualizarRecord(getApplication(),puntuacion.value,data)
+            record.value = puntuacion.value
+            Log.d("DataP", "NUEVA"+ControladorPreference.obtenerRecord(getApplication()).toString())
         }
     }
+
     fun obtenerRecord():Int{
-        record.value =  ControladorPreference.obtenerRecord(getApplication())
-        Log.d("_PREF", "Record: ${(record.value)}")
+        record.value = ControladorPreference.obtenerRecord(getApplication()).valorRecord
         return record.value
     }
+
 
 }

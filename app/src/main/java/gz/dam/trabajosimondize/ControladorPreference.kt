@@ -2,35 +2,41 @@ package gz.dam.trabajosimondize
 
 import android.content.Context
 import androidx.core.content.edit
+import java.util.Date
 
-object ControladorPreference{
+object ControladorPreference : InterfazRecord{
     // definimos el nombre del fichero de preferencias
-    private const val PREFS_NAME = "preferencias_app"
+    private const val PREFS_NAME = "preferencias_app_Nuevas"
     // definimos la clave del record (guardamos key:value)
     private const val KEY_RECORD = "record"
+
+    private const val KEY_DATA = "data"
 
     /**
      * Actualiza el record en las preferencias compartidas.
      * @param context Contexto de la aplicación.
      * @param nuevoRecord Nuevo record a guardar.
      */
-    fun actualizarRecord(context: Context, nuevoRecord: Int) {
-        // Obtenemos las preferencias compartidas
+    override fun obtenerRecord(context: Context): Record {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        // Usamos la extensión KTX edit {} para no bloquear el hilo y aplicar cambios
-        // 'put' pone un valor con clave KEY_RECORD y valor nuevoRecord
-        sharedPreferences.edit {
-            putInt(KEY_RECORD, nuevoRecord)
-        }
+        val rec = sharedPreferences.getInt(KEY_RECORD,0)
+        val dat = sharedPreferences.getString(KEY_DATA,"Wed Dec 03 13:27:11 GMT+01:00 2025")
+        Record.valorRecord = rec
+        Record.fechaSuperacion = Date(dat)
+        return Record
     }
 
+
     /**
-     * Obtiene el record de las preferencias compartidas.
-     * @param context Contexto de la aplicación.
-     * @return El valor del record, o 0 si no se encuentra.
+     * Permite actualizar el record si se supera
      */
-    fun obtenerRecord(context: Context): Int {
-        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return sharedPreferences.getInt(KEY_RECORD, 0)
+    override fun actualizarRecord(context: Context, nuevoRecord: Int, dataActual: Date): Int {
+        val sharedPreferences  = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val dataString = dataActual.toString()
+        sharedPreferences.edit{
+            putInt(KEY_RECORD,nuevoRecord)
+            putString(KEY_DATA,dataString)
+        }
+        return 1
     }
 }

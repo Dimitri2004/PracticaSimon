@@ -4,13 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
-import kotlin.getValue
-
-
-
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,4 +17,5 @@ class MainActivity : ComponentActivity() {
             Interfaz(miViewModel = viewModel)
         }
     }
+
 }
