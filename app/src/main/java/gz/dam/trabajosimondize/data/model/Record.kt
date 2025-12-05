@@ -1,4 +1,4 @@
-package gz.dam.trabajosimondize
+package gz.dam.trabajosimondize.data.model
 
 
 import java.util.Date

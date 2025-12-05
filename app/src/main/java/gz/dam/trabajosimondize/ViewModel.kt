@@ -1,35 +1,20 @@
 package gz.dam.trabajosimondize
 
 import android.app.Application
-import android.content.Context
-import android.os.Looper
-import android.provider.Settings.Global.getString
 import android.util.Log
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import gz.dam.trabajosimondize.data.repository.ControladorPreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
-import java.util.logging.Handler
 
 
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS",
-    "NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS"
-)
 class MyViewModel(application: Application) : AndroidViewModel(application) {
     private val TAG_LOG: String = "miDebug"
-
 
     // Estado del juego
     val errorLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -103,6 +88,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         mostrarSecuencia()              // mostramos la secuencia actualizada
     }
     fun reiniciarJuego() {
+        esRecord() // Comprobamos si hay nuevo récord antes de reiniciar
         // Reiniciar todas las variables del juego
         secuencia.clear()
         indiceJugador.value = 0
@@ -112,24 +98,21 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         Log.d( TAG_LOG, "Juego reiniciado. Estado :${estadoLiveData.value}" )
     }
     fun comprobar(ordinal: Int) {
-
-//        estadosAuxiliares()
-        secuenciaColor.clear()
         if (estadoLiveData.value != Estado.SIGUIENDO) return
-        var indiceJugador = indiceJugador.value ?: 0
-        if (secuencia[indiceJugador] == ordinal) {
-            indiceJugador= indiceJugador + 1
-            this.indiceJugador.value= indiceJugador
-            if (indiceJugador == secuencia.size) {
-                estadoLiveData.value= Estado.ADIVINANDO
+
+        secuenciaColor.clear()
+        val indiceActual = indiceJugador.value ?: 0
+        if (secuencia[indiceActual] == ordinal) {
+            val nuevoIndice = indiceActual + 1
+            indiceJugador.value = nuevoIndice
+            if (nuevoIndice == secuencia.size) {
                 // Secuencia completa correcta
                 puntuacion.value = (puntuacion.value ?: 0) + 1
-                // Generar siguiente ronda automáticamente
-                Log.d(TAG_LOG, "Secuencia acertada. ESTADO: ${estadoLiveData.value} Puntuacion: ${puntuacion.value}")
-                generarSiguienteRonda()
+                estadoLiveData.value = Estado.SECUENCIA_ACERTADA // <- CAMBIO AQUÍ
+                Log.d(TAG_LOG, "Secuencia acertada. Puntuacion: ${puntuacion.value}")
             }
         } else {
-            estadoLiveData.value= Estado.INICIO
+            estadoLiveData.value= Estado.GAMEOVER
             Log.d(TAG_LOG, "Secuencia incorrecta. Estado:${estadoLiveData.value}")
             errorLiveData.value=true
             reiniciarJuego()
@@ -137,10 +120,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun esRecord(){
-        if (puntuacion.value > obtenerRecord()){
+        if ((puntuacion.value ?: 0) > obtenerRecord()){
             Log.d("DataP", "Hola $data")
-            ControladorPreference.actualizarRecord(getApplication(),puntuacion.value,data)
-            record.value = puntuacion.value
+            ControladorPreference.actualizarRecord(getApplication(),puntuacion.value ?: 0,data)
+            record.value = puntuacion.value ?: 0
             Log.d("DataP", "NUEVA"+ControladorPreference.obtenerRecord(getApplication()).toString())
         }
     }
