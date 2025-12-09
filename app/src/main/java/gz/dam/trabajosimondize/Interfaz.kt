@@ -34,7 +34,15 @@ import kotlinx.coroutines.launch
 import kotlin.math.PI
 import kotlin.math.sin
 
-
+/**
+ * Composable principal que construye la interfaz de usuario del juego Simon.
+ *
+ * Esta función observa el estado del [MyViewModel] y recompone la UI en respuesta a los cambios.
+ * Utiliza `LaunchedEffect` para manejar efectos secundarios controlados por el ciclo de vida, como
+ * la lógica del juego y la reproducción de sonidos.
+ *
+ * @param miViewModel La instancia del [MyViewModel] que contiene el estado y la lógica del juego.
+ */
 @Composable
 fun Interfaz(miViewModel: MyViewModel) {
 
@@ -43,7 +51,8 @@ fun Interfaz(miViewModel: MyViewModel) {
     val botonActivo by miViewModel.botonActivo.observeAsState(-1)
     val error by miViewModel.errorLiveData.observeAsState(false)
 
-    // Efecto para gestionar la lógica del juego basada en el estado
+    // Efecto que se lanza cuando el estado del juego cambia a SECUENCIA_ACERTADA.
+    // Se encarga de esperar un segundo y generar la siguiente ronda.
     LaunchedEffect(estado) {
         if (estado == Estado.SECUENCIA_ACERTADA) { // <- REACCIONA AL NUEVO ESTADO
             delay(1000) // Pausa antes de la siguiente ronda
@@ -51,7 +60,7 @@ fun Interfaz(miViewModel: MyViewModel) {
         }
     }
 
-    // Sonar automáticamente cuando el ViewModel activa un botón
+    // Efecto que se lanza cuando un botón se activa en el ViewModel para reproducir un sonido.
     LaunchedEffect(botonActivo) {
         when (botonActivo) {
             0 -> reproducirTono(261.63, 150) // DO
@@ -61,6 +70,8 @@ fun Interfaz(miViewModel: MyViewModel) {
         }
         delay(50)
     }
+
+    // Efecto que reproduce una secuencia de sonidos de error cuando el jugador se equivoca.
     LaunchedEffect(error) {
         if (error) {
             delay(150) // pequeño espacio antes de iniciar la secuencia
@@ -117,6 +128,13 @@ fun Interfaz(miViewModel: MyViewModel) {
         }
     }
 }
+
+/**
+ * Composable que representa cada uno de los botones de colores del Simon.
+ *
+ * @param miViewModel La instancia del ViewModel para comunicar la acción del usuario.
+ * @param enum_color El objeto [Colores] que define las propiedades de este botón (color, etc.).
+ */
 @Composable
 fun BotonSimondize(miViewModel: MyViewModel, enum_color: Colores) {
     val activo by miViewModel.botonActivo.observeAsState(-1)
@@ -128,6 +146,7 @@ fun BotonSimondize(miViewModel: MyViewModel, enum_color: Colores) {
     ) {
         Button(
             onClick = {
+                // Lanza una corrutina para reproducir el sonido sin bloquear el hilo principal.
                 scope.launch {
                     when (enum_color.ordinal) {
                         0 -> reproducirTono(261.63, 150) // DO
@@ -136,10 +155,11 @@ fun BotonSimondize(miViewModel: MyViewModel, enum_color: Colores) {
                         3 -> reproducirTono(349.23, 150) // FA
                     }
                 }
+                // Notifica al ViewModel que el botón ha sido pulsado.
                 miViewModel.comprobar(enum_color.ordinal)},
             colors = ButtonDefaults.buttonColors(
                 containerColor = if (isActive)
-                    enum_color.color.copy(alpha = 0.4f)
+                    enum_color.color.copy(alpha = 0.4f) // Color más claro si está activo
                 else enum_color.color
             ),
             modifier = Modifier
@@ -152,6 +172,12 @@ fun BotonSimondize(miViewModel: MyViewModel, enum_color: Colores) {
         }
     }
 }
+
+/**
+ * Composable para el botón "Start" que inicia una nueva partida.
+ *
+ * @param miViewModel La instancia del ViewModel para iniciar el juego.
+ */
 @Composable
 fun BotonStart(miViewModel: MyViewModel) {
 
@@ -169,6 +195,13 @@ fun BotonStart(miViewModel: MyViewModel) {
         Text(text = "Start", fontSize = 20.sp)
     }
 }
+
+/**
+ * Composable que muestra la puntuación actual de la partida.
+ *
+ * @param model La instancia del ViewModel de la que obtiene la puntuación.
+ * @param modifier El modificador para aplicar a este Composable.
+ */
 @Composable
 fun Puntuacion(model: MyViewModel, modifier: Modifier = Modifier) {
     val puntos by model.puntuacion.observeAsState(0)
@@ -190,18 +223,30 @@ fun Puntuacion(model: MyViewModel, modifier: Modifier = Modifier) {
 
     }
 }
+
+/**
+ * Genera y reproduce un tono de una frecuencia y duración específicas.
+ *
+ * Es una `suspend fun` que utiliza `delay` en lugar de `Thread.sleep` para evitar
+ * bloquear el hilo principal, haciéndola segura para ser llamada desde corrutinas.
+ *
+ * @param frecuencia La frecuencia del tono a generar, en Hercios (Hz).
+ * @param duracionMs La duración del tono, en milisegundos.
+ * @param pausaMs Una pausa adicional al final para evitar la mezcla de sonidos.
+ */
 suspend fun reproducirTono(frecuencia: Double, duracionMs: Int, pausaMs: Long = 100) {
     val sampleRate = 44100
     val numSamples = (duracionMs / 1000.0 * sampleRate).toInt()
     val buffer = ShortArray(numSamples)
 
     // Generar la onda senoidal
+    // La onda senoidal es una forma de onda que se repite periódicamente y la necesitamos para el tono.
     for (i in buffer.indices) {
         val angle = 2.0 * PI * i * frecuencia / sampleRate
         buffer[i] = (sin(angle) * Short.MAX_VALUE).toInt().toShort()
     }
 
-    // Crear AudioTrack
+    // Crear y configurar AudioTrack
     val audioTrack = AudioTrack(
         AudioManager.STREAM_MUSIC,
         sampleRate,
@@ -214,15 +259,21 @@ suspend fun reproducirTono(frecuencia: Double, duracionMs: Int, pausaMs: Long = 
     audioTrack.write(buffer, 0, buffer.size)
     audioTrack.play()
 
-    // Reproducir exactamente la duración del tono
+    // Pausa no bloqueante mientras suena el tono
     delay(duracionMs.toLong())
 
     audioTrack.stop()
     audioTrack.release()
 
-    // --- 🔇 Pausa adicional para evitar mezcla ---
+    // Pausa adicional no bloqueante
     delay(pausaMs)
 }
+
+/**
+ * Composable que muestra el número de la ronda actual.
+ *
+ * @param miViewModel La instancia del ViewModel de la que obtiene el número de ronda.
+ */
 @Composable
 fun Ronda(miViewModel: MyViewModel) {
     val ronda by miViewModel.ronda.observeAsState(0)

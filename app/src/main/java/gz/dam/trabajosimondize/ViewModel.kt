@@ -12,91 +12,126 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.Date
 
-
+/**
+ * ViewModel principal del juego Simon.
+ *
+ * Esta clase extiende [AndroidViewModel] para poder acceder al contexto de la aplicación
+ * de forma segura, necesario para interactuar con el repositorio de datos.
+ *
+ * Gestiona todo el estado y la lógica del juego, comunicándose con la interfaz de usuario
+ * a través de objetos observables como [MutableLiveData] y [MutableStateFlow].
+ */
 class MyViewModel(application: Application) : AndroidViewModel(application) {
     private val TAG_LOG: String = "miDebug"
 
-    // Estado del juego
-    val errorLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
-    val estadoLiveData: MutableLiveData<Estado> = MutableLiveData(Estado.INICIO)
-    private val secuenciaColor: MutableList<String> = mutableListOf<String>()
+    // --- Variables de Estado Observables por la UI ---
 
+    /** Indica si se ha producido un error (p. ej., secuencia incorrecta), para que la UI reaccione. */
+    val errorLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    /** Representa el estado actual del juego (INICIO, GENERANDO, SIGUIENDO, etc.), crucial para la lógica de la UI. */
+    val estadoLiveData: MutableLiveData<Estado> = MutableLiveData(Estado.INICIO)
+
+    /** Mantiene la secuencia de colores representada como texto (usado principalmente para debugging). */
+    private val secuenciaColor: MutableList<String> = mutableListOf<String>()
     val nombreColores: MutableLiveData<MutableList<String>> = MutableLiveData<MutableList<String>>(secuenciaColor)
 
-    // Secuencia de colores (0=Rojo,1=Verde,2=Azul,3=Amarillo)
-    private val secuencia = mutableListOf<Int>()
-    private var indiceJugador : MutableLiveData<Int> = MutableLiveData(0)
-    // Lista fija de nombres de colores por índice (0=Rojo,1=Verde,2=Azul,3=Amarillo)
-    val colores: MutableList<String> =mutableListOf("rojo","verde","azul","amarillo")
-
-    // Puntuación
+    /** La puntuación actual de la partida. */
     val puntuacion: MutableLiveData<Int> = MutableLiveData(0)
 
-    // Botón activo para animación
+    /** El índice del botón que debe mostrarse como activo (para la animación de la secuencia). -1 si ninguno. */
     val botonActivo: MutableLiveData<Int> = MutableLiveData(-1)
 
+    /** El número de la ronda actual. */
     val ronda = MutableLiveData(0)
 
+    /** El récord de puntuación más alta, como un StateFlow para ser observado por la UI de Compose. */
     val record = MutableStateFlow(0)
 
-    var data = Date()
+    // --- Variables Internas de Lógica ---
+
+    private val secuencia = mutableListOf<Int>() // La secuencia numérica de colores generada.
+    private var indiceJugador : MutableLiveData<Int> = MutableLiveData(0) // El índice actual del jugador en la secuencia.
+    private val colores: List<String> = listOf("rojo","verde","azul","amarillo")
+    private var data = Date() // Fecha para registrar un nuevo récord.
 
     init {
-        record.value=obtenerRecord()
+        // Al crear el ViewModel, se carga el récord guardado.
+        record.value = obtenerRecord()
     }
-    // Genera un nuevo color y muestra la secuencia
+
+    /**
+     * Inicia una nueva partida o la reinicia desde cero.
+     * Limpia la secuencia, resetea la puntuación y genera el primer color.
+     */
     fun crearRandom() {
         estadoLiveData.value = Estado.GENERANDO
         ronda.value = 1
         secuencia.clear()
         puntuacion.value = 0
-        // Generar color aleatorio y agregar a la secuencia
         val nuevo = (0..3).random()
         secuencia.add(nuevo)
-        indiceJugador.value= 0
+        indiceJugador.value = 0
         mostrarSecuencia()
         Log.d(TAG_LOG, "Estado: ${estadoLiveData.value}")
-
     }
 
+    /**
+     * Muestra la secuencia de colores actual al jugador, activando los botones visualmente.
+     * Es una corrutina que se ejecuta en el hilo principal para poder actualizar la UI.
+     */
     fun mostrarSecuencia() {
         CoroutineScope(Dispatchers.Main).launch {
             for (color in secuencia) {
                 botonActivo.value = color
-                delay(200)  // Duración del color activo
+                delay(200)
                 botonActivo.value = -1
-                delay(200)  // Pausa entre colores
+                delay(200)
             }
             delay(200)
             for (color in secuencia) {
                 secuenciaColor.add(colores[color])
             }
             Log.d(TAG_LOG, "Generada secuencia Secuencia:${nombreColores.value}")
-
             estadoLiveData.value = Estado.SIGUIENDO
         }
-
     }
+
+    /**
+     * Añade un nuevo color a la secuencia y la muestra al jugador.
+     * Se llama cuando el jugador completa una ronda con éxito.
+     */
     fun generarSiguienteRonda() {
-        estadoLiveData.value= Estado.SIGUIENDO
+        estadoLiveData.value = Estado.GENERANDO
         secuenciaColor.clear()
         ronda.value = (ronda.value ?: 1) + 1
-        val nuevo = (0..3).random()      // generamos un nuevo color ale
-        secuencia.add(nuevo) // lo añadimos a la secuencia
-        indiceJugador.value= 0          // reiniciamos el índice del jugador
-        Log.d( TAG_LOG, "Nueva secuencia creada. Estado: ${estadoLiveData.value}")
-        mostrarSecuencia()              // mostramos la secuencia actualizada
+        val nuevo = (0..3).random()
+        secuencia.add(nuevo)
+        indiceJugador.value = 0
+        Log.d(TAG_LOG, "Nueva secuencia creada. Estado: ${estadoLiveData.value}")
+        mostrarSecuencia()
     }
+
+    /**
+     * Reinicia el estado del juego. Primero comprueba si se ha batido un récord y luego
+     * resetea todas las variables a sus valores iniciales.
+     */
     fun reiniciarJuego() {
-        esRecord() // Comprobamos si hay nuevo récord antes de reiniciar
-        // Reiniciar todas las variables del juego
+        esRecord()
         secuencia.clear()
         indiceJugador.value = 0
         puntuacion.value = 0
         ronda.value = 1
         estadoLiveData.value = Estado.INICIO
-        Log.d( TAG_LOG, "Juego reiniciado. Estado :${estadoLiveData.value}" )
+        Log.d(TAG_LOG, "Juego reiniciado. Estado :${estadoLiveData.value}")
     }
+
+    /**
+     * Comprueba si el botón pulsado por el jugador (`ordinal`) coincide con el
+     * color correspondiente en la secuencia generada.
+     *
+     * @param ordinal El índice del color pulsado por el jugador.
+     */
     fun comprobar(ordinal: Int) {
         if (estadoLiveData.value != Estado.SIGUIENDO) return
 
@@ -106,32 +141,38 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
             val nuevoIndice = indiceActual + 1
             indiceJugador.value = nuevoIndice
             if (nuevoIndice == secuencia.size) {
-                // Secuencia completa correcta
                 puntuacion.value = (puntuacion.value ?: 0) + 1
-                estadoLiveData.value = Estado.SECUENCIA_ACERTADA // <- CAMBIO AQUÍ
+                estadoLiveData.value = Estado.SECUENCIA_ACERTADA
                 Log.d(TAG_LOG, "Secuencia acertada. Puntuacion: ${puntuacion.value}")
             }
         } else {
-            estadoLiveData.value= Estado.GAMEOVER
+            estadoLiveData.value = Estado.GAMEOVER
             Log.d(TAG_LOG, "Secuencia incorrecta. Estado:${estadoLiveData.value}")
-            errorLiveData.value=true
+            errorLiveData.value = true
             reiniciarJuego()
         }
     }
 
-    fun esRecord(){
-        if ((puntuacion.value ?: 0) > obtenerRecord()){
+    /**
+     * Comprueba si la puntuación actual supera el récord. Si es así, actualiza el récord
+     * a través del repositorio de datos.
+     */
+    private fun esRecord() {
+        if ((puntuacion.value ?: 0) > obtenerRecord()) {
             Log.d("DataP", "Hola $data")
-            ControladorPreference.actualizarRecord(getApplication(),puntuacion.value ?: 0,data)
+            ControladorPreference.actualizarRecord(getApplication(), puntuacion.value ?: 0, data)
             record.value = puntuacion.value ?: 0
-            Log.d("DataP", "NUEVA"+ControladorPreference.obtenerRecord(getApplication()).toString())
+            Log.d("DataP", "NUEVA" + ControladorPreference.obtenerRecord(getApplication()).toString())
         }
     }
 
-    fun obtenerRecord():Int{
+    /**
+     * Obtiene el récord guardado desde el repositorio de datos.
+     *
+     * @return La puntuación del récord.
+     */
+    private fun obtenerRecord(): Int {
         record.value = ControladorPreference.obtenerRecord(getApplication()).valorRecord
         return record.value
     }
-
-
 }
