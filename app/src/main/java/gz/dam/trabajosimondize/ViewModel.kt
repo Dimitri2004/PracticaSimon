@@ -4,7 +4,9 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import gz.dam.trabajosimondize.BaseDatos.ControladorBaseDatos
 import gz.dam.trabajosimondize.data.repository.ControladorPreference
+import gz.dam.trabajosimondize.data.repository.InterfazRecord
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -54,6 +56,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     private var indiceJugador : MutableLiveData<Int> = MutableLiveData(0) // El índice actual del jugador en la secuencia.
     private val colores: List<String> = listOf("rojo","verde","azul","amarillo")
     private var data = Date() // Fecha para registrar un nuevo récord.
+
+    private val recordRepository: InterfazRecord = ControladorBaseDatos(application)
+
+
 
     init {
         // Al crear el ViewModel, se carga el récord guardado.
@@ -172,7 +178,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
      * @return La puntuación del récord.
      */
     private fun obtenerRecord(): Int {
-        record.value = ControladorPreference.obtenerRecord(getApplication()).valorRecord
+        record.value = recordRepository.obtenerRecord(getApplication()).valorRecord
         return record.value
     }
 }
