@@ -30,6 +30,7 @@ object Contract {
      * - puntuacion: Un entero para guardar la puntuación de la partida.
      * - fecha: Un entero (Long) para guardar la fecha en formato de milisegundos.
      */
+
     const val SQL_CREATE_ENTRIES = """
         CREATE TABLE ${PuntuacionEntry.TABLE_NAME} (
             ${BaseColumns._ID} INTEGER PRIMARY KEY,
