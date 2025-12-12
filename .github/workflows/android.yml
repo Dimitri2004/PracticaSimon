@@ -10,7 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # ¡ESTA ES LA SOLUCIÓN CLAVE!
     # Le decimos a todos los pasos de 'run' que se ejecuten dentro de la carpeta anidada.
     defaults:
       run:
@@ -37,9 +36,3 @@ jobs:
 
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
-
-      # CORRECCIÓN EXTRA: Le decimos a esta acción específica dónde está la raíz del proyecto.
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582
-        with:
-          build-root-directory: ./PracticaSimon
