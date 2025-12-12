@@ -10,6 +10,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # ¡ESTA ES LA SOLUCIÓN! 
+    # Le decimos a todos los pasos que se ejecuten dentro de la carpeta anidada.
+    defaults:
+      run:
+        working-directory: ./PracticaSimon
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -21,8 +27,7 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    # Este es el paso clave que soluciona el error 'exit code 127'.
-    # Le da permisos de ejecución al script de Gradle (gradlew) para que el sistema pueda usarlo.
+    # Este comando ahora se ejecutará dentro de ./PracticaSimon, donde sí encontrará el gradlew
     - name: Make gradlew executable
       run: chmod +x ./gradlew
 
