@@ -10,7 +10,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    # Le decimos a todos los pasos que se ejecuten dentro de la carpeta anidada.
+    # Le decimos a todos los pasos de 'run' que se ejecuten dentro de la carpeta anidada.
     defaults:
       run:
         working-directory: ./PracticaSimon
