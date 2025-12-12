@@ -10,29 +10,36 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # ¡ESTA ES LA SOLUCIÓN! 
-    # Le decimos a todos los pasos que se ejecuten dentro de la carpeta anidada.
+    # ¡ESTA ES LA SOLUCIÓN CLAVE!
+    # Le decimos a todos los pasos de 'run' que se ejecuten dentro de la carpeta anidada.
     defaults:
       run:
         working-directory: ./PracticaSimon
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 11
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
 
-    # Este comando ahora se ejecutará dentro de ./PracticaSimon, donde sí encontrará el gradlew
-    - name: Make gradlew executable
-      run: chmod +x ./gradlew
+      # Este comando ahora se ejecutará dentro de ./PracticaSimon
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
-    - name: Build with Gradle
-      run: ./gradlew build
+      # Los siguientes pasos también usarán el 'working-directory' correcto
+      - name: Build with Gradle
+        run: ./gradlew build
 
-    - name: Run unit tests
-      run: ./gradlew testDebugUnitTest
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
+
+      # CORRECCIÓN EXTRA: Le decimos a esta acción específica dónde está la raíz del proyecto.
+      - name: Generate and submit dependency graph
+        uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582
+        with:
+          build-root-directory: ./PracticaSimon
