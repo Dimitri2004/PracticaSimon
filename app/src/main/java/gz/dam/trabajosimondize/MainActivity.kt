@@ -16,6 +16,4 @@ class MainActivity : ComponentActivity() {
             Interfaz(miViewModel = viewModel)
         }
     }
-
-
 }

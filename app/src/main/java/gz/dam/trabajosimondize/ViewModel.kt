@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import gz.dam.trabajosimondize.BaseDatos.ControladorBaseDatos
-import gz.dam.trabajosimondize.data.repository.ControladorPreference
 import gz.dam.trabajosimondize.data.repository.InterfazRecord
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,11 +54,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     private val secuencia = mutableListOf<Int>() // La secuencia numérica de colores generada.
     private var indiceJugador : MutableLiveData<Int> = MutableLiveData(0) // El índice actual del jugador en la secuencia.
     private val colores: List<String> = listOf("rojo","verde","azul","amarillo")
-    private var data = Date() // Fecha para registrar un nuevo récord.
 
+    // El repositorio de datos. Gracias a la interfaz, podemos cambiar fácilmente
+    // entre SharedPreferences y la Base de Datos sin tocar el resto del ViewModel.
     private val recordRepository: InterfazRecord = ControladorBaseDatos(application)
-
-
 
     init {
         // Al crear el ViewModel, se carga el récord guardado.
@@ -119,11 +117,11 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
-     * Reinicia el estado del juego. Primero comprueba si se ha batido un récord y luego
-     * resetea todas las variables a sus valores iniciales.
+     * Reinicia el estado del juego. Primero guarda la puntuación de la partida y comprueba
+     * si hay un nuevo récord. Luego resetea todas las variables a sus valores iniciales.
      */
     fun reiniciarJuego() {
-        esRecord()
+        guardarPuntuacionPartida()
         secuencia.clear()
         indiceJugador.value = 0
         puntuacion.value = 0
@@ -160,15 +158,17 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
-     * Comprueba si la puntuación actual supera el récord. Si es así, actualiza el récord
-     * a través del repositorio de datos.
+     * Guarda la puntuación de la partida actual en el repositorio y actualiza el récord si se ha superado.
      */
-    private fun esRecord() {
-        if ((puntuacion.value ?: 0) > obtenerRecord()) {
-            Log.d("DataP", "Hola $data")
-            ControladorPreference.actualizarRecord(getApplication(), puntuacion.value ?: 0, data)
-            record.value = puntuacion.value ?: 0
-            Log.d("DataP", "NUEVA" + ControladorPreference.obtenerRecord(getApplication()).toString())
+    private fun guardarPuntuacionPartida() {
+        val puntuacionActual = puntuacion.value ?: 0
+        // Guardamos la puntuación de la partida actual en la base de datos.
+        recordRepository.actualizarRecord(getApplication(), puntuacionActual, Date())
+
+        // Comprobamos si esta puntuación supera el récord actual y actualizamos la UI.
+        if (puntuacionActual > record.value) {
+            record.value = puntuacionActual
+            Log.d("DataP", "¡Nuevo Récord!: $puntuacionActual")
         }
     }
 
@@ -178,7 +178,8 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
      * @return La puntuación del récord.
      */
     private fun obtenerRecord(): Int {
-        record.value = recordRepository.obtenerRecord(getApplication()).valorRecord
-        return record.value
+        val recordGuardado = recordRepository.obtenerRecord(getApplication())
+        record.value = recordGuardado.valorRecord
+        return recordGuardado.valorRecord
     }
 }
