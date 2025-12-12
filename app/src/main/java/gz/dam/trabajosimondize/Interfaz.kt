@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package gz.dam.trabajosimondize
 
 import android.media.AudioFormat
