@@ -10,8 +10,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    # ¡ESTA ES LA SOLUCIÓN CLAVE!
-    # Le decimos a todos los pasos de 'run' que se ejecuten dentro de la carpeta anidada.
+    # Le decimos a todos los pasos que se ejecuten dentro de la carpeta anidada.
     defaults:
       run:
         working-directory: ./PracticaSimon
@@ -25,8 +24,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: gradle
 
-      # Este paso ahora se ejecutará dentro de ./PracticaSimon y encontrará el fichero
+      # Este comando ahora se ejecutará dentro de ./PracticaSimon
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 

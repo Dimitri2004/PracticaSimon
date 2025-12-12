@@ -1,3 +1,4 @@
+
 @file:Suppress("DEPRECATION")
 
 package gz.dam.trabajosimondize
@@ -250,11 +251,17 @@ suspend fun reproducirTono(frecuencia: Double, duracionMs: Int, pausaMs: Long = 
 
     // Crear y configurar AudioTrack
     val audioTrack = AudioTrack(
+        // 1. STREAM_MUSIC: Usa el canal de audio para música, controlado por el volumen multimedia.
         AudioManager.STREAM_MUSIC,
+        // 2. sampleRate: La "calidad" del sonido (44100 muestras por segundo).
         sampleRate,
+        // 3. CHANNEL_OUT_MONO: El sonido tendrá un solo canal (mono).
         AudioFormat.CHANNEL_OUT_MONO,
+        // 4. ENCODING_PCM_16BIT: El formato de cada muestra de audio (16 bits, estándar).
         AudioFormat.ENCODING_PCM_16BIT,
+        // 5. buffer.size * 2: El tamaño total en bytes del buffer de audio.
         buffer.size * 2,
+        // 6. MODE_STATIC: Le decimos que le daremos todo el audio de una vez, no en streaming.
         AudioTrack.MODE_STATIC
     )
 
