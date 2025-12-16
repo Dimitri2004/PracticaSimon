@@ -35,7 +35,7 @@ object Contract {
         CREATE TABLE ${PuntuacionEntry.TABLE_NAME} (
             ${BaseColumns._ID} INTEGER PRIMARY KEY,
             ${PuntuacionEntry.COLUMN_NAME_PUNTUACION} INTEGER,
-            ${PuntuacionEntry.COLUMN_NAME_FECHA} INTEGER)"""
+            ${PuntuacionEntry.COLUMN_NAME_FECHA} TEXT)"""
 
     /**
      * Sentencia SQL para eliminar la tabla. Es útil para resetear o actualizar
