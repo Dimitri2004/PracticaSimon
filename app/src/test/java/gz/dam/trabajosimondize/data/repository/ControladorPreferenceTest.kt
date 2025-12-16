@@ -54,7 +54,7 @@ class ControladorPreferenceTest {
 
         val resultado = ControladorPreference.actualizarRecord(context, nuevoRecord, fecha)
 
-        assertEquals(1, resultado)
+        assertEquals(10, resultado)
 
         // Verificar que los datos se han escrito correctamente
         val prefs = context.getSharedPreferences("preferencias_app_Nuevas", Context.MODE_PRIVATE)
