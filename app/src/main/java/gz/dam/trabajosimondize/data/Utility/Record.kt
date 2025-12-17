@@ -1,7 +1,6 @@
-package gz.dam.trabajosimondize.data.model
+package gz.dam.trabajosimondize.data.Utility
 
-
-import java.util.Date
+import java.time.LocalDateTime
 
 /**
  * Representa el modelo de datos del récord del juego.
@@ -13,15 +12,7 @@ import java.util.Date
  * cargados y actualizados por un gestor de datos como [ControladorPreference].
  */
 object Record {
-    /**
-     * Almacena la puntuación más alta conseguida.
-     * Se inicializa en 0.
-     */
-    var valorRecord:Int = 0
+    var recordPun: Int = 0
+    var recordFeha: LocalDateTime = LocalDateTime.now()
 
-    /**
-     * Almacena la fecha y hora en la que se consiguió el récord.
-     * Se inicializa con la fecha y hora actuales por defecto.
-     */
-    var fechaSuperacion: Date = Date()
 }

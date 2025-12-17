@@ -1,8 +1,11 @@
-package gz.dam.trabajosimondize.data.repository
+package gz.dam.trabajosimondize.data.controller
 
 import android.content.Context
 import androidx.core.content.edit
-import gz.dam.trabajosimondize.data.model.Record
+import gz.dam.trabajosimondize.data.model.InterfazRecord
+import gz.dam.trabajosimondize.data.Utility.Record
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 
 //Es un singleton,solo una unica instancia del gestor ,ya que no necesita a varios gestores haciendo lo mismo
@@ -14,6 +17,7 @@ object ControladorPreference : InterfazRecord {
 
     private const val KEY_DATA = "data"
 
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss") //Formato de texto en el que se guarda la fecha
     /**
      * Obtiene el record desde las preferencias compartidas.
      * @param context Contexto de la aplicación.
@@ -22,9 +26,9 @@ object ControladorPreference : InterfazRecord {
     override fun obtenerRecord(context: Context): Record {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val rec = sharedPreferences.getInt(KEY_RECORD,0)
-        val dat = sharedPreferences.getLong(KEY_DATA, Date().time) // Leer como Long
-        Record.valorRecord = rec
-        Record.fechaSuperacion = Date(dat) // Crear Date desde Long
+        val fec = sharedPreferences.getString(KEY_DATA, "11/11/2011 11:11:11")
+        Record.recordPun = rec
+        Record.recordFeha = LocalDateTime.parse(fec,formatter)
         return Record
     }
 

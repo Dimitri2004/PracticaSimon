@@ -1,4 +1,4 @@
-package gz.dam.trabajosimondize
+package gz.dam.trabajosimondize.main
 
 
 import androidx.compose.ui.graphics.Color
