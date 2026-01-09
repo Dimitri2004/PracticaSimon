@@ -49,10 +49,3 @@ Esta es la parte más importante del proyecto para entender las diferentes forma
 4.  El `ViewModel` procesa la lógica del juego.
 5.  Cuando una partida termina, el `ViewModel` llama al método `actualizarRecord()` del controlador, pasándole la nueva puntuación.
 6.  El controlador (sea `SharedPreferences`, `SQLite` o `Room`) se encarga de guardar la nueva puntuación en el almacenamiento del dispositivo si esta supera el récord anterior.
-
-## Cómo Ejecutar el Proyecto
-
-1.  Clona el repositorio.
-2.  Abre el proyecto con una versión reciente de Android Studio.
-3.  Sincroniza el proyecto con Gradle para que descargue todas las dependencias.
-4.  Ejecuta la aplicación en un emulador o en un dispositivo físico.

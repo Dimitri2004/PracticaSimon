@@ -16,7 +16,7 @@ class ControladorSQLite(context: Context) : HandlerRecord {
     val dbHelper : ContratoSQLite.SQLiteHelper = ContratoSQLite.SQLiteHelper(context)
     val dbWriter = dbHelper.writableDatabase
     val dbReader = dbHelper.readableDatabase
-    val TAG = "SQLite"
+    private val TAG = "SQLiteControlador"
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss") //Formato de texto en el que se guarda la fecha
 
     override fun setRecord(
