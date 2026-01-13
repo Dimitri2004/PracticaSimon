@@ -28,11 +28,11 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     val botonActivo: MutableLiveData<Int> = MutableLiveData(-1)
     val ronda = MutableLiveData(0)
 
-    var _record: Record = controllerSQLite.getRecord(getApplication())
-    var _recordFecha: LocalDateTime = _record.recordFeha
+    var _record: Record = controllerSQLite.getRecord(getApplication()) // Variable para guardar el record actual mediante el controlador
+    var _recordFecha: LocalDateTime = _record.recordFeha // Variable para guardar la fecha del record actual mediante el controlador
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss") //Formato de texto en el que se guarda la fecha
 
-    val record = MutableStateFlow<Int>(_record.recordPun)
+    val record = MutableStateFlow<Int>(_record.recordPun) // Variable para guardar la puntuación del record
     val recordData = MutableStateFlow<String>(_recordFecha.format(formatter)) // Variable para guardar la fecha del record
 
 

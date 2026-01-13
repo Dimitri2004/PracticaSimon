@@ -2,7 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp")
+    id("com.google.devtools.ksp") // se emplea para que el plugin de Room compile con KSP en lugar de ASM con la finalidad de crear anotaciones @DAo
+
+
 
 }
 

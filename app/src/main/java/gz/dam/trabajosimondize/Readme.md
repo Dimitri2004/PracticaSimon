@@ -19,7 +19,7 @@ El código está organizado en varios paquetes clave que separan la interfaz, la
 ### Lógica Principal y UI
 
 -   `MainActivity.kt`: Es el punto de entrada de la aplicación. Su única responsabilidad es crear el `ViewModel` y llamar a la interfaz principal.
--   `Interfaz.kt`: Contiene toda la interfaz de usuario del juego, construida con **Jetpack Compose**. Es responsable de dibujar los botones, mostrar la puntuación y reaccionar a los cambios de estado del `ViewModel`.
+-   `Interfaz.kt`: Contiene toda la interfaz de usuario del juego. Es responsable de dibujar los botones, mostrar la puntuación y reaccionar a los cambios de estado del `ViewModel`.
 -   `ViewModel.kt`: Es el cerebro de la aplicación. Gestiona toda la lógica del juego (generar secuencias, comprobar la entrada del usuario, etc.) y el estado de la UI (`puntuacion`, `ronda`, `record`). Se comunica con los controladores de datos para guardar y cargar el récord.
 -   `Datos.kt`: Fichero que contiene clases `enum` y `object` para definir constantes del juego, como los colores (`Colores`) y los diferentes estados del juego (`Estado`).
 
