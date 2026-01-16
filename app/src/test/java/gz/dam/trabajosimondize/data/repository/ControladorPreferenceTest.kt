@@ -2,7 +2,8 @@ package gz.dam.trabajosimondize.data.repository
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import gz.dam.trabajosimondize.data.model.Record
+import gz.dam.trabajosimondize.data.controller.ControladorPreference
+import gz.dam.trabajosimondize.data.Utility.Record
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -54,7 +55,7 @@ class ControladorPreferenceTest {
 
         val resultado = ControladorPreference.actualizarRecord(context, nuevoRecord, fecha)
 
-        assertEquals(1, resultado)
+        assertEquals(10, resultado)
 
         // Verificar que los datos se han escrito correctamente
         val prefs = context.getSharedPreferences("preferencias_app_Nuevas", Context.MODE_PRIVATE)

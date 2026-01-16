@@ -1,0 +1,37 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "main", "develop", "feature/Personal" ]
+  pull_request:
+    branches: [ "main", "develop", "feature/Personal" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    # Le decimos a todos los pasos de 'run' que se ejecuten dentro de la carpeta anidada.
+    defaults:
+      run:
+        working-directory: ./PracticaSimon
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      # Este comando ahora se ejecutará dentro de ./PracticaSimon
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
