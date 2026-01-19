@@ -1,1 +1,1 @@
-Trabajo SimonDiceIndividual
+Trabajo Individual
