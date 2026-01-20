@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "gz.dam.trabajosimondize.app-mergeDebugResources-39:/values-v30/values-v30.xml",
+            "outputFile": "gz.dam.trabajosimondize.app-mergeDebugResources-42:/values-v30/values-v30.xml",
             "map": [
                 {
-                    "source": "/home/dam/.gradle/caches/8.13/transforms/c94141fc68675e85a651b5a862968f45/transformed/material3-release/res/values-v30/values-v30.xml",
+                    "source": "/home/dam/.gradle/caches/8.13/transforms/79db16b72324878da8ba9c89213b0761/transformed/material3-release/res/values-v30/values-v30.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

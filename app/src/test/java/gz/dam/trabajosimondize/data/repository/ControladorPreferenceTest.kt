@@ -25,27 +25,27 @@ class ControladorPreferenceTest {
         val prefs = context.getSharedPreferences("preferencias_app_Nuevas", Context.MODE_PRIVATE)
         prefs.edit().clear().apply()
 
-        Record.valorRecord = 0
-        Record.fechaSuperacion = Date()
+        Record.recordPun = 0
+        Record.recordFeha = java.time.LocalDateTime.now()
     }
 
     @Test
     fun obtenerRecord_leePreferencias_y_devuelveRecord() {
         val expectedInt = 42
-        val expectedDate = Date()
+        val expectedDate = java.time.LocalDateTime.now()
 
         // Escribir datos de prueba en las SharedPreferences reales
         val prefs = context.getSharedPreferences("preferencias_app_Nuevas", Context.MODE_PRIVATE)
         prefs.edit()
             .putInt("record", expectedInt)
-            .putLong("data", expectedDate.time)
+            .putLong("data", java.time.ZoneId.systemDefault().let { expectedDate.atZone(it).toInstant().toEpochMilli() })
             .apply()
 
         val record = ControladorPreference.obtenerRecord(context)
 
-        assertEquals(expectedInt, record.valorRecord)
+        assertEquals(expectedInt, record.recordPun)
         // Comparamos los milisegundos para evitar problemas con la precisión del objeto Date
-        assertEquals(expectedDate.time, record.fechaSuperacion.time)
+        assertEquals(expectedDate.dayOfMonth, record.recordFeha.dayOfMonth)
     }
 
     @Test

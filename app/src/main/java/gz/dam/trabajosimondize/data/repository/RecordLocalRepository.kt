@@ -161,8 +161,8 @@ class RecordLocalRepository(private val database: AppDatabase) : IRecordReposito
     private fun RecordEntity.toRecordRemote(): RecordRemote {
         return RecordRemote(
             id = this.id.toString(),
-            puntuacion = this.puntuacion,
-            fecha = this.fecha,
+            puntuacion = this.puntuacion ?: 0,
+            fecha = this.fecha ?: "",
             sincronizado = true,
             fechaCreacion = System.currentTimeMillis(),
             fechaModificacion = System.currentTimeMillis()

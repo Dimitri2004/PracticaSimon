@@ -49,11 +49,6 @@ class SyncManager(
             SYNC_INTERVAL_MINUTES,
             TimeUnit.MINUTES
         )
-            .setBackoffPolicy(
-                BackoffPolicy.EXPONENTIAL,
-                15,
-                TimeUnit.MINUTES
-            )
             .build()
 
         workManager.enqueueUniquePeriodicWork(
