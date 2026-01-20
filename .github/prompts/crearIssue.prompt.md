@@ -1,3 +1,2 @@
 - Creame uno o varios issues para implementar los siguientes puntos:
 - " Añade a tu app la posibilidad de que guarde el record (o los records) en una base de datos MongoDB, ademas de mantener la structura de Shared Preferences y Sqlite"
-
