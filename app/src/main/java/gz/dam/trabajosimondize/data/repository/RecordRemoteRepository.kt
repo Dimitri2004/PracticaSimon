@@ -3,7 +3,7 @@ package gz.dam.trabajosimondize.data.repository
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import gz.dam.trabajosimondize.data.model.RecordRemote
+import gz.dam.trabajosimondize.data.record.RecordRemote
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection

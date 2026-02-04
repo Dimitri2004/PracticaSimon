@@ -1,7 +1,6 @@
-package gz.dam.trabajosimondize.data.model
+package gz.dam.trabajosimondize.data.record
 
 import android.content.Context
-import gz.dam.trabajosimondize.data.Utility.Record
 import java.util.Date
 
 /**
@@ -17,7 +16,7 @@ interface InterfazRecord {
      * Obtiene el récord actual guardado.
      *
      * @param context El contexto de la aplicación, necesario para acceder al almacenamiento.
-     * @return Un objeto [gz.dam.trabajosimondize.data.Utility.Record] que contiene la puntuación y la fecha del récord.
+     * @return Un objeto [gz.dam.trabajosimondize.data.record.Record] que contiene la puntuación y la fecha del récord.
      */
     fun obtenerRecord(context: Context): Record
 

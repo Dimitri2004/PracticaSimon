@@ -1,8 +1,8 @@
 package gz.dam.trabajosimondize.data.repository
 
 import android.util.Log
-import gz.dam.trabajosimondize.data.model.RecordRemote
-import gz.dam.trabajosimondize.data.Utility.RecordEntity
+import gz.dam.trabajosimondize.data.record.RecordRemote
+import gz.dam.trabajosimondize.data.record.RecordEntity
 import gz.dam.trabajosimondize.data.room.AppDatabase
 import java.time.format.DateTimeFormatter
 

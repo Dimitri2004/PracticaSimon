@@ -4,10 +4,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.util.Log
 import gz.dam.trabajosimondize.data.BaseDatos.ContratoSQLite
-import gz.dam.trabajosimondize.data.model.HandlerRecord
+import gz.dam.trabajosimondize.data.record.HandlerRecord
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import gz.dam.trabajosimondize.data.Utility.Record
+import gz.dam.trabajosimondize.data.record.Record
 
 
 

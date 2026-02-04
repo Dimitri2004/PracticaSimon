@@ -1,4 +1,4 @@
-package gz.dam.trabajosimondize.data.Utility
+package gz.dam.trabajosimondize.data.record
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

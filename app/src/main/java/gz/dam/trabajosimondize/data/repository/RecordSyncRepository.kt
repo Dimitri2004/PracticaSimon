@@ -1,7 +1,7 @@
 package gz.dam.trabajosimondize.data.repository
 
 import android.util.Log
-import gz.dam.trabajosimondize.data.model.RecordRemote
+import gz.dam.trabajosimondize.data.record.RecordRemote
 
 /**
  * Repositorio de sincronización que combina datos locales y remotos.

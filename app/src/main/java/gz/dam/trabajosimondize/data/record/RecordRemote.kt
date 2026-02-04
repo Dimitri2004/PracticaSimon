@@ -1,4 +1,4 @@
-package gz.dam.trabajosimondize.data.model
+package gz.dam.trabajosimondize.data.record
 
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime

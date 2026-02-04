@@ -3,7 +3,7 @@ package gz.dam.trabajosimondize.data.repository
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import gz.dam.trabajosimondize.data.controller.ControladorPreference
-import gz.dam.trabajosimondize.data.Utility.Record
+import gz.dam.trabajosimondize.data.record.Record
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test

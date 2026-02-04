@@ -1,7 +1,6 @@
-package gz.dam.trabajosimondize.data.model
+package gz.dam.trabajosimondize.data.record
 
 import android.content.Context
-import gz.dam.trabajosimondize.data.Utility.Record
 import java.time.LocalDateTime
 
 

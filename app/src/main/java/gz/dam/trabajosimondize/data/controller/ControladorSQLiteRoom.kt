@@ -4,9 +4,9 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
-import gz.dam.trabajosimondize.data.Utility.Record
-import gz.dam.trabajosimondize.data.Utility.RecordEntity
-import gz.dam.trabajosimondize.data.model.HandlerRecord
+import gz.dam.trabajosimondize.data.record.Record
+import gz.dam.trabajosimondize.data.record.RecordEntity
+import gz.dam.trabajosimondize.data.record.HandlerRecord
 import gz.dam.trabajosimondize.data.room.AppDatabase
 import java.lang.Exception
 import java.time.LocalDateTime

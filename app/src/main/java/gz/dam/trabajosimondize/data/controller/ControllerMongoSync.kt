@@ -3,8 +3,8 @@ package gz.dam.trabajosimondize.data.controller
 import android.app.Application
 import android.util.Log
 import androidx.room.Room
-import gz.dam.trabajosimondize.data.Utility.Record
-import gz.dam.trabajosimondize.data.model.RecordRemote
+import gz.dam.trabajosimondize.data.record.Record
+import gz.dam.trabajosimondize.data.record.RecordRemote
 import gz.dam.trabajosimondize.data.repository.RecordLocalRepository
 import gz.dam.trabajosimondize.data.repository.RecordRemoteRepository
 import gz.dam.trabajosimondize.data.repository.RecordSyncRepository
@@ -95,7 +95,7 @@ class ControllerMongoSync(
 
             // Guardar en el repositorio de sincronización
             val result = db.recordDao().insertAll(
-                gz.dam.trabajosimondize.data.Utility.RecordEntity(
+                gz.dam.trabajosimondize.data.record.RecordEntity(
                     id = null,
                     puntuacion = valorRecord,
                     fecha = fechaRecord.format(formatter)

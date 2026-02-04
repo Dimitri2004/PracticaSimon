@@ -1,4 +1,4 @@
-package gz.dam.trabajosimondize.data.Utility
+package gz.dam.trabajosimondize.data.record
 
 import java.time.LocalDateTime
 

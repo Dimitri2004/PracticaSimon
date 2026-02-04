@@ -1,6 +1,6 @@
 package gz.dam.trabajosimondize.data.repository
 
-import gz.dam.trabajosimondize.data.model.RecordRemote
+import gz.dam.trabajosimondize.data.record.RecordRemote
 
 /**
  * Interfaz que define el contrato para las operaciones CRUD de récords.

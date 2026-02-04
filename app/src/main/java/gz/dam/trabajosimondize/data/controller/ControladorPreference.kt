@@ -2,8 +2,8 @@ package gz.dam.trabajosimondize.data.controller
 
 import android.content.Context
 import androidx.core.content.edit
-import gz.dam.trabajosimondize.data.model.InterfazRecord
-import gz.dam.trabajosimondize.data.Utility.Record
+import gz.dam.trabajosimondize.data.record.InterfazRecord
+import gz.dam.trabajosimondize.data.record.Record
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -26,9 +26,16 @@ object ControladorPreference : InterfazRecord {
     override fun obtenerRecord(context: Context): Record {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val rec = sharedPreferences.getInt(KEY_RECORD,0)
-        val fec = sharedPreferences.getString(KEY_DATA, "11/11/2011 11:11:11")
+        val defaultDateMillis = java.time.LocalDateTime.parse("11/11/2011 11:11:11", formatter)
+            .atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()
+        val fecMillis = sharedPreferences.getLong(KEY_DATA, defaultDateMillis) // Read as Long
+
+        // Convert epoch milliseconds to LocalDateTime
+        val instant = java.time.Instant.ofEpochMilli(fecMillis)
+        val localDateTime = java.time.LocalDateTime.ofInstant(instant, java.time.ZoneId.systemDefault())
+
         Record.recordPun = rec
-        Record.recordFeha = LocalDateTime.parse(fec,formatter)
+        Record.recordFeha = localDateTime // Assign LocalDateTime
         return Record
     }
 

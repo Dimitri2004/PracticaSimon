@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.application
 import gz.dam.trabajosimondize.data.controller.ControllerRoomSQLite
-import gz.dam.trabajosimondize.data.Utility.Record
+import gz.dam.trabajosimondize.data.record.Record
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

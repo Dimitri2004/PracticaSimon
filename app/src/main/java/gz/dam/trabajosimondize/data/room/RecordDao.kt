@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import gz.dam.trabajosimondize.data.Utility.RecordEntity
+import gz.dam.trabajosimondize.data.record.RecordEntity
 
 @Dao
 interface RecordDao {
