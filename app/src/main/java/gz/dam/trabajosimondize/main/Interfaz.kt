@@ -15,9 +15,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -77,7 +80,10 @@ fun Interfaz(miViewModel: MyViewModel) {
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().background(Color(0xFFB9F6CA)).padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFB9F6CA))
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -135,7 +141,10 @@ fun BotonSimondize(miViewModel: MyViewModel, enum_color: Colores) {
                     enum_color.color.copy(alpha = 0.4f)
                 else enum_color.color
             ),
-            modifier = Modifier.size(150.dp, 250.dp).border(6.dp, Color.Black, RoundedCornerShape(6.dp)).padding(3.dp),
+            modifier = Modifier
+                .size(150.dp, 250.dp)
+                .border(6.dp, Color.Black, RoundedCornerShape(6.dp))
+                .padding(3.dp),
             shape = RoundedCornerShape(10.dp)
         ) { Text(text = enum_color.txt, fontSize = 0.sp) }
     }
@@ -146,7 +155,10 @@ fun BotonStart(miViewModel: MyViewModel) {
     Button(
         onClick = { miViewModel.crearRandom() },
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF14B8CC)),
-        modifier = Modifier.size(160.dp, 70.dp).border(6.dp, Color.Black, RoundedCornerShape(6.dp)).padding(3.dp),
+        modifier = Modifier
+            .size(160.dp, 70.dp)
+            .border(6.dp, Color.Black, RoundedCornerShape(6.dp))
+            .padding(3.dp),
         shape = RoundedCornerShape(10.dp)
     ) { Text(text = "Start", fontSize = 20.sp) }
 }
@@ -154,13 +166,16 @@ fun BotonStart(miViewModel: MyViewModel) {
 @Composable
 fun Puntuacion(model: MyViewModel, modifier: Modifier = Modifier) {
     val puntos by model.puntuacion.observeAsState(0)
-
     Column(
-        modifier = modifier.fillMaxWidth(0.9f).size(70.dp).border(10.dp, Color.Black, RoundedCornerShape(10.dp)).padding(3.dp),
+        modifier = modifier
+            .fillMaxWidth(0.9f)
+            .size(70.dp)
+            .border(10.dp, Color.Black, RoundedCornerShape(10.dp))
+            .padding(3.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
+
     ) { Text(text = "Puntuación: $puntos", fontSize = 30.sp, color = Color.Black)
-//    Text(text = "Usuario : $nombre", fontSize = 10.sp, color = Color.Black)
     }
 }
 
@@ -185,7 +200,11 @@ suspend fun reproducirTono(frecuencia: Double, duracionMs: Int, pausaMs: Long = 
 fun Ronda(miViewModel: MyViewModel) {
     val ronda by miViewModel.ronda.observeAsState(0)
     Box(
-        modifier = Modifier.fillMaxWidth(0.9f).size(70.dp).border(10.dp, Color.Black, RoundedCornerShape(10.dp)).padding(3.dp),
+        modifier = Modifier
+            .fillMaxWidth(0.9f)
+            .size(70.dp)
+            .border(10.dp, Color.Black, RoundedCornerShape(10.dp))
+            .padding(3.dp),
         contentAlignment = Alignment.Center
     ) { Text(text = "Ronda: $ronda", fontSize = 30.sp, color = Color.Black) }
 }
