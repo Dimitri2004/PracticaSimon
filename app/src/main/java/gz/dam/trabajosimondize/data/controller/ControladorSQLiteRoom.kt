@@ -110,7 +110,6 @@ class ControllerRoomSQLite(applicationContext: Application) : HandlerRecord {
         Log.d(TAG_LOG,"Record: $fecha")
         Log.d(TAG_LOG,"Record: $nombre")
 
-
         return Record
     }
 
