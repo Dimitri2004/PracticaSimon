@@ -11,7 +11,8 @@ interface RecordDao {
 
     @Query("SELECT * FROM RecordEntity")
     fun getAll(): List<RecordEntity>
-
+    @Query("SELECT Nombre FROM RecordEntity ORDER BY Puntuación DESC LIMIT 1")
+    fun getNames(): RecordEntity?
     @Query("SELECT * FROM RecordEntity WHERE id IN (:RecordIds)")
     fun loadAllByIds(RecordIds: IntArray): List<RecordEntity>
 

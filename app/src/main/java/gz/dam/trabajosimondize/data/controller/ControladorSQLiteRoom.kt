@@ -5,9 +5,11 @@ import android.content.Context
 import android.util.Log
 import androidx.room.Room
 import gz.dam.trabajosimondize.data.Utility.Record
+import gz.dam.trabajosimondize.data.Utility.Record.recordNombre
 import gz.dam.trabajosimondize.data.Utility.RecordEntity
 import gz.dam.trabajosimondize.data.model.HandlerRecord
 import gz.dam.trabajosimondize.data.room.AppDatabase
+import gz.dam.trabajosimondize.data.room.RecordDao
 import java.lang.Exception
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -22,7 +24,6 @@ class ControllerRoomSQLite(applicationContext: Application) : HandlerRecord {
     private val TAG_LOG: String = "RommSQLITE"
     // Define un formato estándar para convertir las fechas a texto y viceversa.
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
-
     // Inicializa la base de datos Room.
     val db = Room.databaseBuilder(
         applicationContext,
@@ -49,6 +50,7 @@ class ControllerRoomSQLite(applicationContext: Application) : HandlerRecord {
     override fun setRecord(
         valorRecord: Int,
         fechaRecord: LocalDateTime,
+        nombreRecord : String,
         context: Context
     ): Int {
         try {
@@ -56,7 +58,8 @@ class ControllerRoomSQLite(applicationContext: Application) : HandlerRecord {
             val record = RecordEntity(
                 id = null, // El ID se genera automáticamente al ser autoincremental.
                 puntuacion = valorRecord,
-                fecha = fechaRecord.format(formatter) // Convierte la fecha a String para guardarla.
+                fecha = fechaRecord.format(formatter), // Convierte la fecha a String para guardarla.
+                nombre = recordNombre,
             )
             // Llama al método del DAO para insertar el nuevo récord en la base de datos.
             recordDao.insertAll(record)
@@ -66,7 +69,6 @@ class ControllerRoomSQLite(applicationContext: Application) : HandlerRecord {
             return -1 // Devuelve -1 si ocurre una excepción.
         }
     }
-
     /**
      * Obtiene el récord más alto guardado en la base de datos.
      *
@@ -80,11 +82,13 @@ class ControllerRoomSQLite(applicationContext: Application) : HandlerRecord {
 
         val fecha: LocalDateTime
         val puntuacion: Int
-
+        val nombre : String
+        nombre = ""
         // Comprueba si la base de datos devolvió un récord o si estaba vacía.
         if (record != null){
             // Si hay un récord, convierte la fecha (que está como String) de vuelta a un objeto LocalDateTime.
             fecha = LocalDateTime.parse(record.fecha, formatter)
+
             Log.d(TAG_LOG,"Error al insertar $fecha") // Este log parece tener un texto de error incorrecto.
             // Asigna la puntuación, o 0 si por alguna razón fuera nula.
             puntuacion = record.puntuacion ?: 0
@@ -100,9 +104,11 @@ class ControllerRoomSQLite(applicationContext: Application) : HandlerRecord {
         // Este objeto es accesible desde otras partes de la app para mostrar el récord.
         Record.recordPun = puntuacion
         Record.recordFeha = fecha
+        Record.recordNombre = nombre
         
         Log.d(TAG_LOG,"Record: $record")
         Log.d(TAG_LOG,"Record: $fecha")
+        Log.d(TAG_LOG,"Record: $nombre")
 
 
         return Record

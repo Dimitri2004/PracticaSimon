@@ -27,8 +27,12 @@ object ControladorPreference : InterfazRecord {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val rec = sharedPreferences.getInt(KEY_RECORD,0)
         val fec = sharedPreferences.getString(KEY_DATA, "11/11/2011 11:11:11")
+        val nom= sharedPreferences.getString(KEY_DATA,"Username")
         Record.recordPun = rec
         Record.recordFeha = LocalDateTime.parse(fec,formatter)
+        if (nom != null) {
+            Record.recordNombre=nom
+        }
         return Record
     }
 
@@ -40,7 +44,12 @@ object ControladorPreference : InterfazRecord {
      * @param dataActual La fecha actual de la superación del record.
      * @return 10 si la operación fue exitosa.
      */
-    override fun actualizarRecord(context: Context, nuevoRecord: Int, dataActual: Date): Int {
+    override fun actualizarRecord(
+        context: Context,
+        nombreRecord: String,
+        nuevoRecord: Int,
+        dataActual: Date
+    ): Int {
         val sharedPreferences  = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         sharedPreferences.edit {
             putInt(KEY_RECORD,nuevoRecord)

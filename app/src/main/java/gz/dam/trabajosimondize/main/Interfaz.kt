@@ -15,9 +15,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -154,11 +157,14 @@ fun BotonStart(miViewModel: MyViewModel) {
 @Composable
 fun Puntuacion(model: MyViewModel, modifier: Modifier = Modifier) {
     val puntos by model.puntuacion.observeAsState(0)
+    val nombre by model.nombre.observeAsState("Username")
+
     Column(
         modifier = modifier.fillMaxWidth(0.9f).size(70.dp).border(10.dp, Color.Black, RoundedCornerShape(10.dp)).padding(3.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ) { Text(text = "Puntuación: $puntos", fontSize = 30.sp, color = Color.Black) }
+    ) { Text(text = "Puntuación: $puntos", fontSize = 30.sp, color = Color.Black)
+    Text(text = "Usuario : $nombre", fontSize = 10.sp, color = Color.Black)}
 }
 
 suspend fun reproducirTono(frecuencia: Double, duracionMs: Int, pausaMs: Long = 100) {

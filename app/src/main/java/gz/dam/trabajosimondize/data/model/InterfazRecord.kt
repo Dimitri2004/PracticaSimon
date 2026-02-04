@@ -29,5 +29,7 @@ interface InterfazRecord {
      * @param dataActual La fecha en la que se consiguió el nuevo récord.
      * @return Un entero que indica el resultado de la operación (p. ej., 1 si fue exitosa).
      */
-    fun actualizarRecord(context: Context, nuevoRecord: Int, dataActual: Date): Int
+    fun actualizarRecord(context: Context,nombreRecord: String, nuevoRecord: Int, dataActual: Date): Int
+
+
 }
