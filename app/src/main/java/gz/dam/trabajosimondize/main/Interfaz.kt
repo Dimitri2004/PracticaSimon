@@ -92,7 +92,7 @@ fun Interfaz(miViewModel: MyViewModel) {
         Spacer(Modifier.size(8.dp))
         Puntuacion(miViewModel)
         Spacer(Modifier.size(10.dp))
-        Text("Record: $record")
+        Text("Record Maximo: $record")
         Spacer(Modifier.size(10.dp))
         Column {
             Row {
