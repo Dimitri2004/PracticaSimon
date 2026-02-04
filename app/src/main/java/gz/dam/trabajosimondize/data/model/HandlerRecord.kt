@@ -12,7 +12,7 @@ interface HandlerRecord {
      * @param fechaRecord fecha en la que fue hecho el record
      * @return devuelve 1 si fue bien, cualquier otro número mal
      */
-    fun setRecord(valorRecord: Int, fechaRecord: LocalDateTime, nombreRecord: String, context: Context) : Int
+    fun setRecord(valorRecord: Int, fechaRecord: LocalDateTime, context: Context) : Int
 
     /**
      * Función que devuelve el record desde donde se haya guardado

@@ -15,6 +15,5 @@ object Record {
     var recordPun: Int = 0
     var recordFeha: LocalDateTime = LocalDateTime.now()
 
-    var recordNombre: String = ""
 
 }

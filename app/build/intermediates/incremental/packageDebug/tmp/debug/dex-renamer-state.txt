@@ -1,4 +1,4 @@
-#Wed Feb 04 11:29:14 CET 2026
+#Wed Feb 04 11:51:16 CET 2026
 base.0=/home/dam/Escritorio/PracticaSimon2/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
 base.1=/home/dam/Escritorio/PracticaSimon2/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
 base.10=/home/dam/Escritorio/PracticaSimon2/app/build/intermediates/dex/debug/mergeExtDexDebug/classes3.dex

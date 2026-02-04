@@ -24,8 +24,6 @@ object ContratoSQLite {
         const val TABLE_NAME = "Record"
         const val COLUMN_NAME_PUNTUACION = "Puntuación"
         const val COLUMN_NAME_FECHA = "Fecha"
-
-        const val COLUMN_NAME_NOMBRE ="Nombre"
     }
 
     /**
@@ -36,7 +34,6 @@ object ContratoSQLite {
     private const val SQL_CREATE_ENTRIES =
         "CREATE TABLE ${FeedEntry.TABLE_NAME} (" +
                 "${BaseColumns._ID} INTEGER PRIMARY KEY," +
-                "${FeedEntry.COLUMN_NAME_NOMBRE} TEXT,"+
                 "${FeedEntry.COLUMN_NAME_PUNTUACION} INTEGER," +
                 "${FeedEntry.COLUMN_NAME_FECHA} TEXT)"
 

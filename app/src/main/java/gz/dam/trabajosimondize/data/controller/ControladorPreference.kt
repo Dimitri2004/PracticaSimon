@@ -27,12 +27,8 @@ object ControladorPreference : InterfazRecord {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val rec = sharedPreferences.getInt(KEY_RECORD,0)
         val fec = sharedPreferences.getString(KEY_DATA, "11/11/2011 11:11:11")
-        val nom= sharedPreferences.getString(KEY_DATA,"Username")
         Record.recordPun = rec
         Record.recordFeha = LocalDateTime.parse(fec,formatter)
-        if (nom != null) {
-            Record.recordNombre=nom
-        }
         return Record
     }
 
@@ -46,7 +42,6 @@ object ControladorPreference : InterfazRecord {
      */
     override fun actualizarRecord(
         context: Context,
-        nombreRecord: String,
         nuevoRecord: Int,
         dataActual: Date
     ): Int {

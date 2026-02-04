@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MyViewModel(application: Application) : AndroidViewModel(application) {
     private val TAG_LOG: String = "miDebug"
 
@@ -27,7 +28,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     val puntuacion: MutableLiveData<Int> = MutableLiveData(0)
     val botonActivo: MutableLiveData<Int> = MutableLiveData(-1)
     val ronda = MutableLiveData(0)
-    val nombre = MutableLiveData("")
+    val nombre =""
 
     var _record: Record = controllerSQLite.getRecord(getApplication())
     var _recordFecha: LocalDateTime = _record.recordFeha
@@ -126,7 +127,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun actualizarRecord(){
         record.value = puntuacion.value
-        controllerSQLite.setRecord(record.value, LocalDateTime.now(),nombre.value,getApplication())
+        controllerSQLite.setRecord(record.value, LocalDateTime.now(),getApplication())
         _record = controllerSQLite.getRecord(getApplication())
         _recordFecha = _record.recordFeha
         recordData.value = _recordFecha.format(formatter)

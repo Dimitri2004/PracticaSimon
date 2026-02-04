@@ -22,7 +22,6 @@ class ControladorSQLite(context: Context) : HandlerRecord {
     override fun setRecord(
         valorRecord: Int,
         fechaRecord: LocalDateTime,
-        nombreRecord: String,
         context: Context
     ): Int {
         var fechaString = fechaRecord.format(formatter)
